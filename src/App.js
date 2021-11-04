@@ -1,8 +1,10 @@
 
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import './App.css';
 import api from './api';
 import Headers from './Headers';
+import axios from 'axios';
+
 
 
 class App extends Component{
@@ -10,6 +12,7 @@ class App extends Component{
     state= {
         personagens: [],
     }
+
 
     async componentDidMount(){
 
@@ -19,8 +22,22 @@ class App extends Component{
 
     }
 
-    clickbuttom(name){
-        console.log('Botao ');
+    clickbuttom(index, person){
+
+        console.log('Botao do personagem ' + person.films);
+
+        const films = person.films;
+        let resp = '';
+
+        {films.map((film, i) => (
+            <li key={i}>
+                {console.log(film)}
+                {resp = axios.get(film)}
+                {console.log(resp)}
+                {/*{console.log(resp.title)}*/}
+
+            </li>
+        ))}
 
     }
 
@@ -30,11 +47,10 @@ class App extends Component{
          return(
              <div>
                  <Headers/>
-                 {personagens.map((personagem) => (
-                     <li key={personagem.index}>
+                 {personagens.map((personagem, index) => (
+                     <li key={index}>
                          {console.log(personagem)}
-                         <p>{personagem.name}</p>
-                         <button onClick={() => this.clickbuttom(personagem.name)}>Filmes do personagem</button>
+                         <button onClick={() => this.clickbuttom(index, personagem)}>{personagem.name}</button>
                      </li>
                  ))}
 
