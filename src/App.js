@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import React, { Component } from 'react';
+import './App.css';
+import api from './api';
+import Headers from './Headers';
+
+
+class App extends Component{
+
+    state= {
+        personagens: [],
+    }
+
+    async componentDidMount(){
+
+        const response = await api.get('');
+
+        this.setState({personagens: response.data.results});
+
+    }
+
+    clickbuttom(name){
+        console.log('Botao ');
+
+    }
+
+    render(){
+         const {personagens} = this.state;
+
+         return(
+             <div>
+                 <Headers/>
+                 {personagens.map((personagem) => (
+                     <li key={personagem.index}>
+                         {console.log(personagem)}
+                         <p>{personagem.name}</p>
+                         <button onClick={() => this.clickbuttom(personagem.name)}>Filmes do personagem</button>
+                     </li>
+                 ))}
+
+             </div>
+         );
+
+    };
+};
 
 export default App;
